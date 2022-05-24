@@ -1,10 +1,15 @@
-import logo from './logo.svg';
+
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Navbar from './pages/Shared/Navbar';
 
 function App() {
   return (
     <div className="App">
-      <h1>This is assignment 12</h1>
+      <Navbar></Navbar>
+      {/* <Routes>
+        <Route path='/' element={<Navbar></Navbar>}></Route>
+      </Routes> */}
     </div>
   );
 }
