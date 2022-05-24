@@ -16,7 +16,7 @@ const Navbar = () => {
     // const [user] = useAuthState(auth);
     const menuItems = <>
         <li><Link to='/'>Home</Link></li>
-        <li><Link to='/appointment'>Parts</Link></li>
+        <li><Link to='/parts'>Parts</Link></li>
         <li><Link to='/reviews'>Reviews</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
@@ -35,7 +35,7 @@ const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <Link to='/' className="btn btn-ghost normal-case text-xl">Doctors-Portal</Link>
+                <Link to='/' className="btn btn-ghost normal-case text-xl">Parts-House</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
