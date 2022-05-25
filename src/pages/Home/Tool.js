@@ -1,7 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Tool = ({ tool }) => {
-    const { name, price, minOrder, available, description, img } = tool;
+    const { _id, name, price, minOrder, available, description, img } = tool;
+    const navigate = useNavigate()
+    const handlePurchase = id => {
+        const url = `http://localhost:5000/product${id}`
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+        navigate(`/purchase/${id}`)
+    }
     return (
         <div class="card w-96 bg-base-100 shadow-xl">
             <figure className='py-3'><img className='w-1/2' src={img} alt="Shoes" /></figure>
@@ -12,7 +23,7 @@ const Tool = ({ tool }) => {
                     <p>Minimum Orders : {minOrder}</p></b>
                 <p><b>Description :</b> {description}</p>
                 <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Buy Now</button>
+                    <button onClick={() => handlePurchase(_id)} class="btn btn-primary">Buy Now</button>
                 </div>
             </div>
         </div>

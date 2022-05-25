@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
+
     const onSubmit = data => console.log(data);
     return (
         <div className='h-screen w-1/3 mx-auto my-5'>
