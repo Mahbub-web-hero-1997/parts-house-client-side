@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ButtonPrimary from '../Shared/ButtonPrimary';
 
 const Tool = ({ tool }) => {
     const { _id, name, price, minOrder, available, description, img } = tool;
@@ -23,7 +24,9 @@ const Tool = ({ tool }) => {
                     <p>Minimum Orders : {minOrder} pcs</p></b>
                 <p><b>Description :</b> {description}</p>
                 <div class="card-actions justify-end">
-                    <button onClick={() => handlePurchase(_id)} class="btn btn-primary">Buy Now</button>
+                    {/* <button onClick={() => handlePurchase(_id)} class="btn btn-primary">Buy Now</button> */}
+                    <ButtonPrimary>BuyNow</ButtonPrimary>
+
                 </div>
             </div>
         </div>

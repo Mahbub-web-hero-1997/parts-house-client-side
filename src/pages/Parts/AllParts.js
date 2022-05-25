@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonPrimary from '../Shared/ButtonPrimary';
 
 const AllParts = ({ allParts }) => {
     const { name, price, minOrder, available, description, img } = allParts;
@@ -12,7 +13,7 @@ const AllParts = ({ allParts }) => {
                     <p>Minimum Orders : {minOrder}</p></b>
                 <p><b>Description :</b> {description}</p>
                 <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Buy Now</button>
+                    <ButtonPrimary>BuyNow</ButtonPrimary>
                 </div>
             </div>
         </div>

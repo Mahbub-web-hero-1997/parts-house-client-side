@@ -1,26 +1,25 @@
-// import { signOut } from 'firebase/auth';
 import React from 'react';
-// import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
-// import auth from '../../firebase.init';
+import { signOut } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
 // import Login from '../Login/Login';
 // import Signup from '../Login/Signup';
 // import ButtonPrimary from './ButtonPrimary';
 
 const Navbar = () => {
 
-    // const handleSignOut = () => {
-    //     signOut(auth);
-    //     localStorage.removeItem('accessToken')
-    // }
-    // const [user] = useAuthState(auth);
+    const handleSignOut = () => {
+        signOut(auth);
+    }
+    const [user] = useAuthState(auth);
     const menuItems = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/parts'>Parts</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
         {<li><Link to='/dashboard'>dashboard</Link></li>}
-        {<li><Link to='/login'>Login</Link></li>}
+        {user ? <li><Link onClick={handleSignOut} to='/login'>LogOut</Link></li> : <li><Link to='/login'>Login</Link></li>}
     </>
 
     return (
