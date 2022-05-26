@@ -14,12 +14,12 @@ const Navbar = () => {
     }
     const [user] = useAuthState(auth);
     const menuItems = <>
-        <li><Link to='/'>Home</Link></li>
-        <li><Link to='/parts'>Parts</Link></li>
-        <li><Link to='/about'>About</Link></li>
-        <li><Link to='/contact'>Contact</Link></li>
-        {<li><Link to='/dashboard'>dashboard</Link></li>}
-        {user ? <li><Link onClick={handleSignOut} to='/login'>LogOut</Link></li> : <li><Link to='/login'>Login</Link></li>}
+        <li><Link className='text-xl font-bold' to='/'>Home</Link></li>
+        <li><Link className='text-xl font-bold' to='/parts'>Parts</Link></li>
+        <li><Link className='text-xl font-bold' to='/about'>About</Link></li>
+        <li><Link className='text-xl font-bold' to='/contact'>Contact</Link></li>
+        {<li><Link className='text-xl font-bold' to='/dashboard'>dashboard</Link></li>}
+        {user ? <li><Link className='text-xl font-bold' onClick={handleSignOut} to='/login'>LogOut</Link></li> : <li><Link className='text-xl font-bold' to='/login'>Login</Link></li>}
     </>
 
     return (
@@ -33,7 +33,7 @@ const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <Link to='/' className="btn btn-ghost normal-case text-xl">Parts-House</Link>
+                <Link to='/' className="btn btn-ghost normal-case text-4xl">Parts-House</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
