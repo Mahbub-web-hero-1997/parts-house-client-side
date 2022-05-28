@@ -14,7 +14,7 @@ const AllParts = ({ allParts }) => {
                     <p>Minimum Orders : {minOrder}</p></b>
                 <p><b>Description :</b> {description}</p>
                 <div class="card-actions justify-end">
-                    <button onClick={() => navigate(_id)} className='btn btn-primary text-white font-bold uppercase'>Buy-Now</button>
+                    <button onClick={() => navigate(`/purchase/${_id}`)} className='btn btn-primary text-white font-bold uppercase'>Buy-Now</button>
                 </div>
             </div>
         </div>

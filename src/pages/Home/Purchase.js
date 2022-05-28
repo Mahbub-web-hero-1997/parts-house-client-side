@@ -10,6 +10,7 @@ import Fetcher from '../api/Fetcher';
 const Purchase = () => {
     const { id } = useParams();
     const [parts, setParts] = useState({});
+
     const {
         register,
         handleSubmit,
@@ -20,8 +21,8 @@ const Purchase = () => {
     const navigate = useNavigate()
     const [user] = useAuthState(auth);
 
-    const { data, isLoading, refetch } = useQuery("/parts", () =>
-        Fetcher.get(`/parts/${id}`).then((response) => {
+    const { data, isLoading, refetch } = useQuery("/product", () =>
+        Fetcher.get(`/product/${id}`).then((response) => {
             setParts(response.data);
         })
     );
@@ -40,6 +41,7 @@ const Purchase = () => {
             productName: parts?.name,
         };
         Fetcher.post("orders", order).then((response) => {
+            console.log(response);
             if (response.data.insertedId) {
                 Swal.fire({
                     icon: "success",
@@ -66,8 +68,8 @@ const Purchase = () => {
                     <div className="items-center">
                         <h2 className="text-2xl">Name: {parts.name}</h2>
                         <p className="font-bold">price:{`$${parts.price}`}</p>
-                        <p className="font-bold">Available:{parts.Available}</p>
-                        <p className="font-bold">Minimum order:{parts.minimum_order}</p>
+                        <p className="font-bold">Available:{parts.available}</p>
+                        <p className="font-bold">Minimum order:{parts.minOrder}</p>
                     </div>
                 </div>
                 <div className="shadow-2xl px-16 py-10  lg:w-96">
@@ -113,7 +115,7 @@ const Purchase = () => {
                                         message: "minimum order required",
                                     },
                                 })}
-                                placeholder={`Minimum order ${parts?.minimum_order} piece`}
+                                placeholder={`Minimum order ${parts?.minOrder} piece`}
                                 className="input input-bordered w-full max-w-xs"
                             />
                             <label className="label">

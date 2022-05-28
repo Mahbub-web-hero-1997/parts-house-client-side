@@ -1,0 +1,21 @@
+import { useState } from "react";
+
+const UseAdmin = (user) => {
+    const [admin, setAdmin] = useState(false)
+    const [adminLoading, setAdminLoading] = useState(true)
+    const email = user?.email;
+    // useEffect(() => {
+    //     if (email) {
+    //         axiosPrivate.get(`admin/${email}`)
+    //             .then(response => {
+    //                 setAdmin(response.data)
+    //                 setAdminLoading(false)
+    //             })
+
+    //     }
+    // }, [user])
+    return [admin, adminLoading]
+
+};
+
+export default UseAdmin;
