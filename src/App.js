@@ -13,6 +13,7 @@ import Parts from './pages/Parts/Parts';
 import RequireNonAdmin from './pages/RequireNonAdmin';
 import Footer from './pages/Shared/Footer';
 import Navbar from './pages/Shared/Navbar';
+import Payment from './pages/Payment/Payment'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Myorder></Myorder>
 
           }></Route>
+          <Route path='payment/:id' element={<Payment></Payment>}></Route>
 
         </Route>
         <Route path='/contact' element={<Contact></Contact>}></Route>
