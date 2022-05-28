@@ -1,11 +1,22 @@
 import React from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import auth from '../../firebase.init';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Signup = () => {
+    const [
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth);
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        createUserWithEmailAndPassword(user)
+        console.log(data);
+    };
     console.log(errors);
     return (
         <div className='h-screen w-1/3 mx-auto mb-20'>
@@ -20,7 +31,7 @@ const Signup = () => {
                 <input className='border w-full my-2 rounded-sm shadow-lg py-2 px-4 outline-none' placeholder='Password' {...register("Password", { required: true })} />
                 {errors.Password?.type === 'required' && "Password is required"}
                 <input className='border w-full my-2 rounded-sm shadow-lg py-2 px-4 outline-none' placeholder='Confirm Password' {...register("ConfirmPassword", { required: true })} />
-                {errors.ConfirmPassword?.type === 'required' && "Email is required"}
+                {errors.ConfirmPassword?.type === 'required' && "Confirm Password is required"}
                 <p className='text-left'>Already have an account? <Link className='text-blue-500' to='/signup'>Login!</Link></p>
                 <input className=' btn border w-full my-2 rounded-sm shadow-lg py-2 px-4 outline-none uppercase text-base' type="submit" value='Login' />
             </form>
