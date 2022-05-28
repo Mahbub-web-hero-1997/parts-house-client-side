@@ -10,7 +10,6 @@ const Dashboard = () => {
 
     return (
         <div>
-
             <div class="drawer drawer-mobile">
                 <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
                 <div class="drawer-content flex flex-col bg-[#eff0f5] ">
