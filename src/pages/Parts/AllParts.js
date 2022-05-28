@@ -1,8 +1,9 @@
 import React from 'react';
-import ButtonPrimary from '../Shared/ButtonPrimary';
+import { useNavigate } from 'react-router-dom';
 
 const AllParts = ({ allParts }) => {
-    const { name, price, minOrder, available, description, img } = allParts;
+    const { _id, name, price, minOrder, available, description, img } = allParts;
+    const navigate = useNavigate()
     return (
         <div class="card w-96 bg-base-100 shadow-xl mx-auto">
             <figure className='py-3'><img className='w-3/4 h-52' src={img} alt="Shoes" /></figure>
@@ -13,7 +14,7 @@ const AllParts = ({ allParts }) => {
                     <p>Minimum Orders : {minOrder}</p></b>
                 <p><b>Description :</b> {description}</p>
                 <div class="card-actions justify-end">
-                    <ButtonPrimary>BuyNow</ButtonPrimary>
+                    <button onClick={() => navigate(_id)} className='btn btn-primary text-white font-bold uppercase'>Buy-Now</button>
                 </div>
             </div>
         </div>
