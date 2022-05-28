@@ -55,7 +55,7 @@ const OrdersRow = ({ order, index, setCancel }) => {
                     </div>
                 ) : (
                     <Link to={`/dashboard/payment/${_id}`}>
-                        <button className="bg-[#ff4400] text-white px-4  rounded">Pay</button>
+                        <button className="bg-[#ff4400] text-white px-4  w-[70px] h-[40px] rounded-lg">Pay</button>
                     </Link>
                 )}
             </td>

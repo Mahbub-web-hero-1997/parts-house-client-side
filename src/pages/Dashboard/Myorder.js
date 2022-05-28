@@ -4,35 +4,28 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
 import { Navigate } from "react-router-dom";
 import auth from "../../firebase.init";
-import axiosPrivate from "../Api/axiosPrivate";
-import PageTitle from "../Shared/PageTitle";
-import Spinner from "../Shared/Spinner";
+import Fetcher from "../api/Fetcher";
+
 import OrderCancelModal from "./OrderCancelModal";
 import OrdersRow from "./OrdersRow";
 
 const Myorder = () => {
     const [user] = useAuthState(auth);
     const [orders, setOrders] = useState([]);
+    console.log(orders);
     const [cancel, setCancel] = useState(null)
     const { data, isLoading, refetch } = useQuery("orders", () => {
-        axiosPrivate.get(`orders/${user?.email}`)
+        Fetcher.get(`orders/${user?.email}`)
             .then(response => {
-                setOrders(response.data);
-            }, (err) => {
-                if (err.response.status === 401 || err.response.status) {
-                    signOut(auth)
-                    Navigate("/")
-                    localStorage.removeItem("userToken")
-                }
+                setOrders(response.data)
             })
     });
     if (isLoading) {
-        return <Spinner />;
+        return <p>Loading...</p>;
     }
 
     return (
         <div>
-            <PageTitle title="my-order"></PageTitle>
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full mt-6">
                     <thead>
