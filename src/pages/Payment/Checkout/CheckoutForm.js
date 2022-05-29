@@ -58,7 +58,7 @@ const CheckoutForm = ({ orders }) => {
                 name,
                 email,
             }
-        setSuccess('Your payment is successful')
+            setSuccess('Your payment is successful')
             console.log(paymentIntent)
 
             console.log('false')
