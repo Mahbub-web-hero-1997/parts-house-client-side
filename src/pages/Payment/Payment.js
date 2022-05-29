@@ -14,7 +14,8 @@ const Payment = () => {
     const { id } = useParams()
     const url = `http://localhost:5000/get-payment/${id}`
     const { data, isLoading } = useQuery('get-order', () => Fetcher.get(url))
-    const { productName, price, total, quantity, img } = data?.data || {}
+    console.log(data);
+    const { productName, price, order, quantity, img } = data?.data || {}
     if (isLoading) {
         return <p>Loading...</p>
     }
@@ -26,8 +27,8 @@ const Payment = () => {
                     <div className='pl-5'>
                         <h1 className='text-xl font font-bold'>{productName}</h1>
                         <p className='text-[16px] p-0 my-2 text-black font font-bold '>Price: ${price}</p>
-                        <p className='text-[16px] p-0 my-2 text-black font font-bold '>Quantity: {quantity}</p>
-                        <p className='text-[16px] p-0 my-2 text-black font font-bold '>Total: ${total}</p>
+                        <p className='text-[16px] p-0 my-2 text-black font font-bold '>Quantity: {order}</p>
+                        <p className='text-[16px] p-0 my-2 text-black font font-bold '>Total: ${price * order}</p>
                     </div>
                 </div>
                 <div className="card-body">
@@ -35,7 +36,8 @@ const Payment = () => {
                         <div className="card-body">
                             <Elements stripe={stripePromise}>
                                 <CheckoutForm
-                                    order={data?.data}
+                                    orders={data?.data}
+
                                 />
                             </Elements>
                         </div>

@@ -28,7 +28,7 @@ const Purchase = () => {
     );
 
     if (isLoading) {
-        return <p className='d-flex justify-center items-center'>Loading...</p>;
+        return <p className='flex justify-center h-screen items-center font-bold text-xl'>Loading...</p>;
     }
 
     const onSubmit = (data) => {

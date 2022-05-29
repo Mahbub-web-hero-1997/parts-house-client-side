@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-const CheckoutForm = () => {
+import Fetcher from '../../api/Fetcher';
+import Swal from 'sweetalert2';
+const CheckoutForm = ({ orders }) => {
+
+    // const { }
     const stripe = useStripe();
     const elements = useElements();
     const [err, setErr] = useState('')
     const [success, setSuccess] = useState('')
     const [clientSecret, setClientSecret] = useState('')
     const [loading, setLoading] = useState(false)
+    const { order, price, name, email } = orders;
+    useEffect(() => {
+        (async () => {
+            // get client secret 
+            const { data } = await Fetcher.post(`http://localhost:5000/create-payment-intent`, { price: order * price })
+            console.log(data)
+            setClientSecret(data.clientSecret)
+        })()
+    }, [order, price])
     const handleSubmit = async e => {
         e.preventDefault()
 
@@ -22,8 +35,61 @@ const CheckoutForm = () => {
             type: 'card',
             card
         });
+        const { paymentIntent, error: intentError } = await stripe.confirmCardPayment(
+            clientSecret,
+            {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: name,
+                        email: email
+                    },
+                },
+            },
+        );
+        if (intentError) {
+            setSuccess('')
+            setErr(intentError?.message)
+
+        } else {
+            setErr('')
+            const details = {
+                transactionId: paymentIntent.id,
+                name,
+                email,
+            }
+        setSuccess('Your payment is successful')
+            console.log(paymentIntent)
+
+            console.log('false')
+            await fetch('http://localhost:5000/payment-complete', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(details)
+            })
+                .then(res => {
+                    if (paymentIntent.id) {
+
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: 'Your payment is successful',
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    }
+
+                    return res.json()
+                })
+                .then(data => console.log(data))
+
+        }
+
 
         setErr(error?.message || '')
+
     }
     return (
         <div>
@@ -58,5 +124,6 @@ const CheckoutForm = () => {
         </div>
     );
 };
+
 
 export default CheckoutForm;
