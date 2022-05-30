@@ -16,7 +16,8 @@ const Navbar = () => {
     const menuItems = <>
         <li><Link className='text-xl font-bold' to='/'>Home</Link></li>
         <li><Link className='text-xl font-bold' to='/parts'>Parts</Link></li>
-        <li><Link className='text-xl font-bold' to='/about'>About</Link></li>
+        <li><Link className='text-xl font-bold' to='/blogs'>Blogs</Link></li>
+        <li><Link className='text-xl font-bold' to='/Portfolio'>Portfolio</Link></li>
         <li><Link className='text-xl font-bold' to='/contact'>Contact</Link></li>
         {<li><Link className='text-xl font-bold' to='/dashboard'>dashboard</Link></li>}
         {user ? <li><Link className='text-xl font-bold' onClick={handleSignOut} to='/login'>LogOut</Link></li> : <li><Link className='text-xl font-bold' to='/login'>Login</Link></li>}

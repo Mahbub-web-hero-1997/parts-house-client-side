@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactStars from "react-rating-stars-component";
 import { useForm } from "react-hook-form";
-import fetcher from '../../api/fetcher';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import Loading from '../Shared/Loading';
 import Fetcher from '../api/Fetcher';
 import auth from '../../firebase.init';
 const AddReview = () => {
@@ -20,7 +18,7 @@ const AddReview = () => {
         })()
     }, [user])
     if (loading) {
-        return <Loading />
+        return <p >Loading...</p>
     }
     const handleStar = rating => {
         setRating(rating)
@@ -36,7 +34,7 @@ const AddReview = () => {
             name: user?.displayName,
             address: users.address
         }
-        fetcher.put(`add-review?email=${user?.email}`, usrReview)
+        Fetcher.put(`add-review?email=${user?.email}`, usrReview)
             .then(res => {
                 setLoading(false)
                 console.log(res)

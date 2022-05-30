@@ -1,24 +1,173 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+    useAuthState,
+    useSendPasswordResetEmail,
+    useSignInWithEmailAndPassword,
+    useSignInWithGoogle
+} from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
-import SocialLogin from '../SocialLogin/SocialLogin';
-const Login = () => {
-    const { register, formState: { errors }, handleSubmit } = useForm();
+import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+import auth from "../../firebase.init";
+import useToken from '../useToken';
 
-    const onSubmit = data => console.log(data);
+
+const Login = () => {
+    const [email, setEmail] = useState("");
+    const {
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm();
+    const [user, loading, error] = useAuthState(auth)
+    const [signInWithGoogle, Guser, Gloading, Gerror] = useSignInWithGoogle(auth);
+    const [signInWithEmailAndPassword, Cuser, Cloading, Cerror] =
+        useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending, Ferror] =
+        useSendPasswordResetEmail(auth);
+
+    const [token] = useToken(user)
+    //   signin email and pass
+    const onSubmit = (data) => {
+        signInWithEmailAndPassword(data.email, data.password);
+        reset();
+    };
+
+    //   google sign in
+    const signInGoogle = () => {
+        signInWithGoogle();
+    };
+    let navigate = useNavigate();
+
+    let from = '/' || "/";
+    useEffect(() => {
+        if (token) {
+            navigate(from, { replace: true });
+        }
+    }, [token])
+
+    let signError;
+
+    if (Cerror || Gerror) {
+        signError = (
+            <p className="text-red-500 mb-2">{Cerror?.message || Gerror?.message}</p>
+        );
+    }
+    if (Gloading || Cloading) {
+        return <p className='d-flex justify-center items-center'>Loading...</p>
+    }
+    // forgotten password
+    const forgottenPassword = () => {
+        if (email) {
+            sendPasswordResetEmail(email);
+            Swal.fire({
+                icon: 'success',
+                title: 'Email send',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        } else {
+            Swal.fire('plz provide your email')
+        }
+    };
     return (
-        <div className='h-screen w-1/3 mx-auto my-5'>
-            <h1 className='text-3xl font-bold mt-10 text-left'>Log In!</h1>
-            <form className='flex flex-col items-center justify-center mx-auto rounded-xl shadow-2xl p-10' onSubmit={handleSubmit(onSubmit)}>
-                <input className='border w-full my-2 rounded-sm shadow-lg py-2 px-4 outline-none' placeholder='Your Email' {...register("email", { required: true })} />
-                {errors.email?.type === 'required' && "Email is required"}
-                <input className='border w-full my-2 rounded-sm shadow-lg py-2 px-4 outline-none' placeholder='Your Password' {...register("Password", { required: true })} />
-                {errors.Password && "Password is required"}
-                <p className='text-left'>New to Parts-House? <Link className='text-blue-500' to='/signup'>Create an account</Link></p>
-                <input className=' btn border w-full my-2 rounded-sm shadow-lg py-2 px-4 outline-none uppercase text-base' type="submit" value='Login' />
-            </form>
-            <div class="divider">OR</div>
-            <SocialLogin></SocialLogin>
+        <div class="hero min-h-screen bg-[#eff0f5]">
+            <div class="hero-content ">
+                <div class="card max-w-sm  lg:w-96 shadow-2xl bg-base-100">
+                    <div class="card-body">
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Email</span>
+                                </label>
+                                <input
+                                    {...register("email", {
+                                        required: {
+                                            value: true,
+                                            message: "email required",
+                                        },
+                                        pattern: {
+                                            value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                                            message: "provided valid email",
+                                        },
+                                    })}
+                                    placeholder="email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="input input-bordered w-full max-w-xs"
+                                />
+                                <label className="label">
+                                    {errors.email?.type === "required" && (
+                                        <span className="label-text-alt text-red-500">
+                                            {errors.email.message}
+                                        </span>
+                                    )}
+                                    {errors.email?.type === "pattern" && (
+                                        <span className="label-text-alt text-red-500">
+                                            {errors.email.message}
+                                        </span>
+                                    )}
+                                </label>
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Password</span>
+                                </label>
+                                <input
+                                    {...register("password", {
+                                        required: {
+                                            value: true,
+                                            message: "password required",
+                                        },
+                                        minLength: {
+                                            value: 6,
+                                            message: "password must be 6 character",
+                                        },
+                                    })}
+                                    placeholder="password"
+                                    className="input input-bordered w-full max-w-xs"
+                                />
+                                <label className="label">
+                                    {errors.password?.type === "required" && (
+                                        <span className="label-text-alt text-red-500">
+                                            {errors.password.message}
+                                        </span>
+                                    )}
+                                    {errors.password?.type === "minLength" && (
+                                        <span className="label-text-alt text-red-500">
+                                            {errors.password.message}
+                                        </span>
+                                    )}
+                                </label>
+                                <label class="label">
+                                    <a
+                                        onClick={forgottenPassword}
+                                        href="#"
+                                        class="label-text-alt link link-hover"
+                                    >
+                                        Forgot password?
+                                    </a>
+                                </label>
+                            </div>
+                            {signError}
+                            <div class="form-control mt-6">
+                                <button class="bg-primary text-white font-bold btn">Login</button>
+                            </div>
+                        </form>
+                        <p>
+                            You are new?{" "}
+                            <Link className="text-orange-500" to="/signup">
+                                Signup
+                            </Link>
+                        </p>
+                        <div class="divider">OR</div>
+                        <button onClick={signInGoogle} className="text-white text-[15px] font-[400] btn-md bg-[#f85606] rounded-full uppercase">
+                            Continue with google
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
