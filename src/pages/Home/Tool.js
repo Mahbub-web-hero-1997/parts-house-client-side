@@ -6,7 +6,7 @@ const Tool = ({ tool }) => {
     const { _id, name, price, minOrder, available, description, img } = tool;
     const navigate = useNavigate()
     const handlePurchase = id => {
-        const url = `http://localhost:5000/product${id}`
+        const url = `https://nameless-citadel-60846.herokuapp.com/product${id}`
         fetch(url)
             .then(res => res.json())
             .then(data => {

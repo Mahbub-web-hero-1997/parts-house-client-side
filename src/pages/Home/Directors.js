@@ -10,7 +10,7 @@ const Directors = () => {
     // https://i.ibb.co/wCq7pMq/Nasir-Sir.png
     const [directors, setDirectors] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/director')
+        fetch('https://nameless-citadel-60846.herokuapp.com/director')
             .then(res => res.json())
             .then(data => setDirectors(data))
     }, [])

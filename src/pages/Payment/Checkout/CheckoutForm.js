@@ -15,7 +15,7 @@ const CheckoutForm = ({ orders }) => {
     useEffect(() => {
         (async () => {
             // get client secret 
-            const { data } = await Fetcher.post(`http://localhost:5000/create-payment-intent`, { price: order * price })
+            const { data } = await Fetcher.post(`https://nameless-citadel-60846.herokuapp.com/create-payment-intent`, { price: order * price })
             console.log(data)
             setClientSecret(data.clientSecret)
         })()
@@ -62,7 +62,7 @@ const CheckoutForm = ({ orders }) => {
             console.log(paymentIntent)
 
             console.log('false')
-            await fetch('http://localhost:5000/payment-complete', {
+            await fetch('https://nameless-citadel-60846.herokuapp.com/payment-complete', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'

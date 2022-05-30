@@ -12,7 +12,7 @@ import CheckoutForm from "./Checkout/CheckoutForm";
 const stripePromise = loadStripe(`pk_test_51L4WwpDRe7DePKUJsy9sTKaTGVu6GUb26qHSRW4wWq2wuQzpQdHBdmBSJ5qZ5hjfH9LmYSVsSAKbMKzYfhMijyFb00MOvpKitL`);
 const Payment = () => {
     const { id } = useParams()
-    const url = `http://localhost:5000/get-payment/${id}`
+    const url = `https://nameless-citadel-60846.herokuapp.com/get-payment/${id}`
     const { data, isLoading } = useQuery('get-order', () => Fetcher.get(url))
     console.log(data);
     const { productName, price, order, quantity, img } = data?.data || {}
